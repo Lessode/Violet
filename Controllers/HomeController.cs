@@ -7,11 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Violet.Controllers
 {
-    public class HomeController : CrudController
+    public class HomeController : AbstractController
     {
-        public override IActionResult Index()
-        {
-            return View();
-        }
     }
 }

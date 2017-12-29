@@ -4,9 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Violet.Data;
+using Violet.Entities;
+using Violet.Repositories;
+using Violet.Services;
+using Violet.Services.Interfaces;
 
 namespace Violet
 {
@@ -22,7 +30,24 @@ namespace Violet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<DbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddEntityFrameworkSqlite()
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite(
+                    Configuration.GetConnectionString("DefaultConnection")
+                )
+            );
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddMvc();
+
+            services.AddTransient<ISettingsRepository, SettingsRepository>();
+            services.AddTransient<IAccountService, AccountService>();
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<ApplicationDbContext, ApplicationDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

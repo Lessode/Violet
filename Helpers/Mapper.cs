@@ -8,13 +8,6 @@ namespace Violet.Helpers
 {
     public class Mapper<TEntity, TViewModel> where TEntity : class
     {
-        private readonly IGenericRepository<TEntity> _repository;
-
-        public Mapper(IGenericRepository<TEntity> repository)
-        {
-            _repository = repository;
-        }
-
         public TEntity ViewModelToEntity(TEntity entity, TViewModel viewModel)
         {
             foreach (var item in viewModel.GetType().GetProperties())

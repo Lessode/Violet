@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Violet.Controllers
 {
-    public abstract class CrudController : Controller
+    public abstract class AbstractController : Controller
     {
         public virtual IActionResult Index()
         {
