@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace Violet.Controllers
             return View();
         }
 
+        [HttpPost]
         public async Task<bool> LogIn(ApplicationUserViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -43,6 +45,7 @@ namespace Violet.Controllers
             return false;
         }
 
+        [HttpPost]
         public async Task<bool> CreateAccount(ApplicationUserViewModel viewModel)
         {
             if(ModelState.IsValid)
@@ -53,9 +56,19 @@ namespace Violet.Controllers
                 {
                     return true;
                 }
+
+                AddErrors(result);
             }
 
             return false;
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError("", error.ToString());
+            }
         }
     }
 }
