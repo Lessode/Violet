@@ -14,7 +14,6 @@ namespace Violet.Services
     public class AccountService : IAccountService
     {
         private readonly IGenericRepository<ApplicationUser> _userRepository;
-        private Mapper<ApplicationUser, ApplicationUserViewModel> _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -26,16 +25,15 @@ namespace Violet.Services
             _userManager = userManager;
             _signInManager = signInManager;
             _userRepository = userRepository;
-            _mapper = new Mapper<ApplicationUser, ApplicationUserViewModel>();
         }
 
-        public async Task<SignInResult> Login(ApplicationUserViewModel viewModel)
+        public async Task<SignInResult> Login(string email, string password)
         {
-            if (viewModel.Email != null && viewModel.Email.Length > 0 && viewModel.Password != null && viewModel.Password.Length > 0)
+            if (email != null && email.Length > 0 && password != null && password.Length > 0)
             {
                 SignInResult result = await _signInManager.PasswordSignInAsync(
-                    userName: viewModel.Email,
-                    password: viewModel.Password,
+                    userName: email,
+                    password: password,
                     isPersistent: true,
                     lockoutOnFailure: false);
 
@@ -45,17 +43,15 @@ namespace Violet.Services
             return SignInResult.Failed;
         }
 
-        public async Task<IdentityResult> Register(ApplicationUserViewModel viewModel)
+        public async Task<IdentityResult> Register(string email, string password)
         {
-            if (viewModel.Email != null && viewModel.Email.Length > 0 && viewModel.Password != null && viewModel.Password.Length > 0)
+            if (email != null && email.Length > 0 && password != null && password.Length > 0)
             {
-                ApplicationUser user = _mapper.ViewModelToEntity(new ApplicationUser(), viewModel);
-
-                IdentityResult result = await _userManager.CreateAsync(user);
+                IdentityResult result = await _userManager.CreateAsync(new ApplicationUser() { Email = email }, password);
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _signInManager.SignInAsync(new ApplicationUser() { Email = email }, isPersistent: false);
                 }
 
                 return result;

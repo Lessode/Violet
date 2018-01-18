@@ -9,8 +9,8 @@ namespace Violet.Services.Interfaces
 {
     public interface IAccountService
     {
-        Task<SignInResult> Login(ApplicationUserViewModel viewModel);
-        Task<IdentityResult> Register(ApplicationUserViewModel viewModel);
+        Task<SignInResult> Login(string email, string password);
+        Task<IdentityResult> Register(string email, string password);
         Task Logout();
     }
 }

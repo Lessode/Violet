@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Violet.Repositories;
 
@@ -12,7 +13,7 @@ namespace Violet.Helpers
         {
             foreach (var item in viewModel.GetType().GetProperties())
             {
-                var entityProperty = entity.GetType().GetProperty(item.Name);
+                PropertyInfo entityProperty = entity.GetType().GetProperty(item.Name);
 
                 entityProperty.SetValue(
                     entity,
@@ -28,7 +29,7 @@ namespace Violet.Helpers
         {
             foreach (var item in entity.GetType().GetProperties())
             {
-                var viewModelProperty = viewModel.GetType().GetProperty(item.Name);
+                PropertyInfo viewModelProperty = viewModel.GetType().GetProperty(item.Name);
 
                 viewModelProperty.SetValue(
                     viewModel,

@@ -9,9 +9,9 @@ namespace Violet.Services.Interfaces
 {
     public interface IVideoService
     {
-        Task<bool> Create(VideoViewModel viewModel);
-        Task<bool> Update(VideoViewModel viewModel);
-        VideoViewModel Get(int id);
-        IEnumerable<VideoViewModel> GetAll(int skip = 0, int take = 0);
+        Task<bool> Create(Video viewModel);
+        Task<bool> Update(Video viewModel);
+        Video Get(int id);
+        IEnumerable<Video> GetAllWithPagination(int skip = 0, int take = 0);
     }
 }

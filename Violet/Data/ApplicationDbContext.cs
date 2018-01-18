@@ -14,6 +14,9 @@ namespace Violet.Data
         public DbSet<Video> Videos { get; set; }
         public DbSet<VideoType> VideoTypes { get; set; }
         public DbSet<VideoCategory> VideoCategories { get; set; }
+        public DbSet<Episode> Episodes { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<Time> Times { get; set; }
 
         public ApplicationDbContext(DbContextOptions options)
             : base(options)

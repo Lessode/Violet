@@ -47,6 +47,7 @@ namespace Violet
             services.AddTransient<IVideoRepository, VideoRepository>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IVideoService, VideoService>();
+            services.AddTransient<IEpisodeService, EpisodeService>();
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<ApplicationDbContext, ApplicationDbContext>();

@@ -11,5 +11,8 @@ namespace Violet.Entities
         public ApplicationUser()
         {
         }
+
+        public int TimeId { get; set; }
+        public virtual Time Time { get; set; }
     }
 }
